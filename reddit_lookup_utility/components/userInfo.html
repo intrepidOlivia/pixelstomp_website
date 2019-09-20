@@ -1,0 +1,23 @@
+<p><span style="margin-left:40%;display:inline-block;"><img id="userIcon" height="75px" /><a id="userLink"></a></span></p>
+  <div class="infoDiv">
+    <textarea id="rawInfo" style="margin:auto;height:100%;width:100%;"></textarea>
+  </div>
+  <div class="infoDiv">
+    <textarea id="commentsDisplay" style="margin:auto;height:100%;width:100%;" placeholder="Loading (up to the 1000 most) recent comments..."></textarea>
+  </div>
+  <p><a href="https://www.jasondavies.com/wordcloud/">d3-wordcloud</a></p>
+  <div id="commentSearch" style="display:none;">
+    <p>Enter a search term to search occurrences in this user's comments: <input style="text" id="searchText" /> <button onclick="searchComments()">Submit</button></p>
+    <div id="searchResultsHTML" class="scrollingDiv"></div>
+    <p>Click to display a list of links posted by this user: <button onclick="collectUserLinks()">Display</button></p>
+    <div id="linkList" class="scrollingDiv">
+    </div>
+    <p>Click to display <span id="redditor"></span>'s favored subreddits: <button onclick="getFavoriteSubreddits()">Display</button></p>
+    <div id="favoriteSubreddits">
+    </div>
+    <div>
+      <p>Select a subreddit to display this user's comments from that subreddit: <select id="subredditSelect"></select> <button onclick="displaySubComments()">Display</button>
+        <div id="redditorSubComments" class="scrollingDiv">
+        </div>
+    </div>
+  </div>

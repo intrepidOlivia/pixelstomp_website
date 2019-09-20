@@ -1,0 +1,147 @@
+body {
+  background-color: #ededed;
+  color: #191919;
+}
+
+hr {
+  width: 25%;
+  margin: auto;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+#searchResultsHTML {
+  box-sizing: border-box;
+  font: 400 13px system-ui;
+  font-style: normal;
+  font-variant-ligatures: normal;
+  font-variant-caps: normal;
+  font-variant-numeric: normal;
+  font-variant-east-asian: normal;
+  font-weight: 400;
+  font-stretch: normal;
+  font-size: 13px;
+  line-height: normal;
+  font-family: system-ui;
+  width: 90%;
+  max-height: 200px;
+}
+
+#searchResultsHTML a {
+  text-decoration: none;
+  color: black;
+}
+
+#searchResultsHTML p {
+  margin: 0px;
+  padding: 2px;
+}
+
+#linkList {
+  max-height: 300px;
+  width: 90%;
+}
+
+#postUserMap {
+
+}
+
+#subredditorInfo {
+  max-width: 90%;
+  margin: auto;
+}
+
+#favoriteSubreddits {
+  max-width: 90%;
+}
+
+#redditorSubComments {
+  max-width: 90%;
+  max-height: 300px;
+}
+
+.section {
+  border: 1px solid #3f4042;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 90%;
+  margin: auto;
+  background-color: white;
+}
+
+.subSection {
+  /* make inset box */
+  border: 2px inset;
+}
+
+.multiColumn {
+  display: flex;
+}
+
+.subColumn {
+  border: 1px inset;
+  display: inline-block;
+  width: 45%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 5px;
+}
+
+.todo {
+  color: #7c7c7c;
+}
+
+.scrollingDiv {
+  overflow-y: scroll;
+  padding: 1% 3% 1% 1%;
+  box-sizing: border-box;
+  border-style: inset;
+  border-width: 1px;
+  font-size: 13px;
+  line-height: normal;
+  font-family: system-ui;
+}
+
+.scrollingDiv a {
+  text-decoration: none;
+  color: black;
+}
+
+.scrollingDiv p {
+  margin: 0px;
+  padding: 2px;
+}
+
+.subreddit {
+  display: inline-block;
+  margin: 2px 5px 2px 5px;
+}
+
+.centered {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.infoBox {
+
+}
+
+.infoDiv {
+  display:inline-block;
+  height:200px;
+  width:45%;
+  margin: 1% 1% 1% 1%;
+  box-sizing: border-box;
+}
+
+.footnote {
+  font-family: monospace;
+  font-size: 10px;
+}
