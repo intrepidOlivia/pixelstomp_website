@@ -15,6 +15,9 @@
 <body onload="filterContent()">
 
   <div id="redditorSection" class="section" style="display:none;">
+    <div class="sectionTitle">
+      <h2>Redditor Info Section</h2>
+    </div>
     <p>Type in a username to fetch information about a specific redditor: <input id="redditorInfo" type="text"> <button id="searchRedditorInfo" onclick="searchRedditorInfo()">Search</button></p>
     <div id="userInfo" style="display: none;">
       <p><span style="margin-left:40%;display:inline-block;"><img id="userIcon" height="75px" /><a id="userLink"></a></span></p>
@@ -46,23 +49,28 @@
   <hr />
 
   <div class="section">
+    <div class="sectionTitle">
+      <h2>Subreddit Info Section</h2>
+    </div>
     <p>Type in the name of a subreddit to fetch information about its redditors: <input type="text" id="subredditSearch" /> <button onclick="getSubredditIntersection()">Search</button></p>
     <div id="subredditorInfo" style="display: none;">
       <div class="multiColumn">
         <div class="subColumn">
           <p>The most recent subreddits that the commenters of /r/<span id="subName"></span> are commenting on:</p>
-          <div id="intersectionList">
+          <div id="intersectionList" class="subColumnList">
+            <!-- mutual commenting activity goes here -->
           </div>
         </div>
         <div id="commenterIntersection" class="subColumn">
           <p>Commenters in this subreddit have most recently linked to the following subreddits:</p>
-          <div id="crossReferenceList">
+          <div id="crossReferenceList" class="subColumnList">
+            <!-- subreddit crossreferences go here -->
           </div>
         </div>
-        <div id="commenterPosts" class="subColumn">
-          <p>The most recent subreddits that the commenters of /r/<span></span> are posting in:</p>
-          <div id="commenterPostList" style="color:lightgrey;">
-            Coming soon.
+        <div id="subCommentLinks" class="subColumn">
+          <p>Links that have recently been posted in the comment section of <span id="subName2"></span>:</p>
+          <div id="commenterLinkList" class="subColumnList">
+            <!-- links posted in comments go here -->
           </div>
         </div>
       </div>
@@ -72,6 +80,9 @@
   <hr />
 
   <div id="postSearch" class="section">
+    <div class="sectionTitle">
+      <h2>Post Info Section</h2>
+    </div>
     <p>Enter the url of a post to fetch information about the post: <input type="text" id="postURL" /> <button onclick="getPostInfo()">Search</button>
       <div id="postLinkListWrapper" style="display:none">
         <div>Links posted in this thread:</div>

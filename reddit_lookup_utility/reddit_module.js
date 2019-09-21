@@ -339,8 +339,14 @@ function getSubredditIntersection() {
 	document.getElementById('subredditorInfo').style.display = 'block';
   let subreddit = document.getElementById('subredditSearch').value;
 	document.getElementById('subName').innerHTML = subreddit;
+  document.getElementById('subName2').innerHTML = subreddit;
   let list = document.getElementById('intersectionList');
   list.innerHTML = 'Loading...';
+
+  // Get external Links
+  getExternalSubLinks(subreddit)
+
+  // Populate subreddit associations
   const subredditMap = {};
   getActiveCommenters(subreddit)
     .then((redditorMap) => {
@@ -361,6 +367,7 @@ function getSubredditIntersection() {
                   subredditMap[comment.subreddit] = 1;
                 }
               });
+              // setTimeout(() => getExternalSubLinks(subredditMap), 0);
               r++;
               if (r >= totalRedditors) {
                 // Process subreddit map, using weight of commenter map.
@@ -391,24 +398,45 @@ function getSubredditIntersection() {
     })
     .catch((error) => {
       console.warn(`Error while requesting active commenters for subreddit ${subreddit}:`, error);
-    });
-
-  // makeHTTPRequest(`http://138.68.243.184:8080/reddit/subredditors?subreddit=${subreddit}`
-  //   , 'GET'
-  //   , function() {
-  //     let subredditList = JSON.parse(this.responseText);
-  //     for (let i = 0; i < subredditList.length; i++) {
-  //       // if (i == subredditList.length) {
-  //       //   break;
-  //       // }
-  //
-  //         let link = `<a href="http://www.reddit.com/r/${subredditList[i].subreddit}" class="subreddit" style="font-size: ${(subredditList[i].count / 3) + 10}px;">${subredditList[i].subreddit}</a>`
-  //         list.innerHTML += link;
-  //
-  //     }
-  //   });
+    })
 
   getCrossReferences();
+}
+
+function getHotComments(subreddit) {
+  return new Promise((resolve, reject) => {
+    makeHTTPPromise(`${SERVER_PATH}/reddit/subreddit/comments/hot?subreddit=${subreddit}`, 'GET')
+      .then(resolve)
+      .catch(reject);
+  });
+}
+
+function getExternalSubLinks(subreddit) {
+  const extLinkListDiv = document.getElementById('commenterLinkList');
+  extLinkListDiv.innerText = "Loading...";
+  getHotComments(subreddit)
+    .then(result => {
+      try {
+        let allLinks = [];
+        const threads = JSON.parse(result);
+        threads.forEach(thread => {
+          thread.forEach(comment => {
+            links = extractLinks(comment);
+            if (links.length > 0) {
+              allLinks = allLinks.concat(links);
+            }
+          });
+        });
+        const linksHTML = allLinks.map(linkObj => `<li>${linkObj.link}</li>`).join("");
+        extLinkListDiv.innerHTML = linksHTML;
+      }
+      catch(e) {
+        console.log('There was an error when collecting commments:', e);
+      }
+    })
+    .catch(err => {
+      console.log('There was an error!', err);
+    });
 }
 
 function getCrossReferences() {

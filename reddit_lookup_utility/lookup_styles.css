@@ -37,6 +37,12 @@ hr {
   padding: 2px;
 }
 
+#subCommentLinks a {
+  font-family: Lucida Console, monospace;
+  font-size: 12px;
+  font-weight: bold;
+}
+
 #linkList {
   max-height: 300px;
   width: 90%;
@@ -47,7 +53,6 @@ hr {
 }
 
 #subredditorInfo {
-  max-width: 90%;
   margin: auto;
 }
 
@@ -81,13 +86,20 @@ hr {
 .subColumn {
   border: 1px inset;
   display: inline-block;
-  width: 45%;
+  width: 33%;
   height: 100%;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
   padding: 5px;
   margin: 5px;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+}
+
+.subColumnList {
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .todo {
@@ -113,6 +125,11 @@ hr {
 .scrollingDiv p {
   margin: 0px;
   padding: 2px;
+}
+
+.sectionTitle h2 {
+  margin: 0;
+  font-family: Lucida Console, monospace;
 }
 
 .subreddit {
