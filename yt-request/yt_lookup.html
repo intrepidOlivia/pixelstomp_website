@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube Comment Search</title>
+    <link rel="stylesheet" href="./yt_lookup_styles.css" type="text/css" />
+    <base target="_blank" rel="noopener noreferrer">
+</head>
+<body>
+<div>
+    <div class="loadingBar" id="loadingBar"></div>
+    <div id="commentSearchWrapper">
+        <h3>Youtube Comment Search</h3>
+        <p>Enter the URL of a Youtube video to retrieve up to 1000 of its comments (please be patient, it can take a while):</p>
+        <p><input type="text" id="urlInput" /> <button onclick="onCommentSearch()">Search</button> <span id="commentCount"></span> </p>
+        <div id="commentsBox" class="commentsBox" style="display:none">
+
+        </div>
+        <p />
+        <div id="commentSearch">
+            <div id="commentSearchBar">
+                <p>Enter a term to search the comments: <input id="commentSearchInput" /> <button onclick="commentSearch()">Search</button></p>
+            </div>
+            <div id="commentSearchResults" class="searchResultsHTML">
+
+            </div>
+
+            <div id="linkSearchBar">
+              <p>Click to display a list of links posted in the comments retrieved: <button onclick="displayLinks()">Display Links</button></p>
+            </div>
+            <div id="displayLinkResults">
+            </div>
+
+            <div id="commenterActivity">
+              <p>Select from list of commenters: <select id="commenterSelect"></select> <button onclick="displayUserComments()">Display all comments from user</button> <button onClick="gatherUserActivityInChannel()">Find user's other comments on this channel</button> </p>
+              <div id="userComments" class="searchResultsHTML">
+              </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div>
+      <div id="thumbnail_submit">
+        <h3>Youtube Thumbnail Search</h3>
+          <p>Enter a youtube video URL to search for its highest quality thumbnail:</p>
+          <p>
+            <input type="text" id="thumbnail-id-input" />
+            <button id="button-id-input" onclick="thumbnailSearch()">Search</button>
+          </p>
+      </div>
+      <div id="thumbnail_result">
+
+      </div>
+    </div>
+</div>
+<script src="./yt_lookup.js"></script>
+</body>
+</html>

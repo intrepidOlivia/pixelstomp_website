@@ -1,0 +1,97 @@
+body {
+    background-color: #ededed;
+    color: #191919;
+    padding: 10px;
+}
+
+#commentSearch {
+    display: none;
+    position: relative;
+}
+
+.commentsBox {
+    width: 80%;
+    border-style: inset;
+    max-height: 300px;
+    overflow: auto;
+    background-color: white;
+    font-family: system-ui;
+    font-size: 12px;
+}
+
+.commentsBox a {
+  text-decoration: none;
+  color: black;
+}
+
+.commentsBox p {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+.linkContext {
+  color: rgba(0, 0, 0, .5);
+  font-size: 12px;
+}
+
+.linkTable {
+  width: 80%;
+  table-layout: fixed;
+  border: 1px solid black;
+}
+
+.linkTd {
+  overflow-wrap: break-word;
+  border-top: 1px dashed black;
+  padding: 5px;
+}
+
+.loadingBar {
+    display: none;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    top: 20%;
+    left: 20%;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+.searchResultsHTML {
+  box-sizing: border-box;
+  font: 400 13px system-ui;
+  font-style: normal;
+  font-variant-ligatures: normal;
+  font-variant-caps: normal;
+  font-variant-numeric: normal;
+  font-variant-east-asian: normal;
+  font-weight: 400;
+  font-stretch: normal;
+  font-size: 13px;
+  line-height: normal;
+  font-family: system-ui;
+  width: 90%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border: inset;
+  padding: 10px;
+}
+
+.searchResultsHTML a {
+  text-decoration: none;
+  color: black;
+}
+
+.searchResultsHTML p {
+  margin: 10px 0;
+  padding: 2px;
+}
