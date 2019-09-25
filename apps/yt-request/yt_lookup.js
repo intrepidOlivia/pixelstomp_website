@@ -180,16 +180,6 @@ function displaySearchResults(results) {
 	document.getElementById('commentSearchResults').innerHTML = htmlDisplay;
 }
 
-function displayUserComments() {
-	document.getElementById('userComments').innerHTML = '';
-	const userId = document.getElementById('commenterSelect').value;
-	let htmlDisplay = '';
-	commenterMap[userId].comments.forEach((comment) => {
-		htmlDisplay += `<p><a href="${getCommentLink(videoID, comment.id)}"><<strong>${comment.snippet.publishedAt}</strong>> ${comment.snippet.textOriginal}</a></p>`
-	});
-	document.getElementById('userComments').innerHTML = htmlDisplay;
-}
-
 function getCommentLink(videoID, commentId) {
 	return `http://www.youtube.com/watch?v=${videoID}&lc=${commentId}`;
 }
@@ -272,16 +262,4 @@ function displayImage(url) {
     img.src = url;
     let div = document.getElementById('thumbnail_result');
     div.appendChild(img);
-}
-
-function gatherUserActivityInChannel() {
-	getChannelId(videoID)
-		.then(channelID => {
-			console.log('channel id:', channelID);
-			const user = document.getElementById('commenterSelect').value;
-			makeHTTPRequest(`${SERVER_URL}/youtube/channelInteractions?user=${user}&channel=${channelID}`, 'GET')
-			.then((result) => {
-				console.log('result:', result);
-			});
-	});
 }
