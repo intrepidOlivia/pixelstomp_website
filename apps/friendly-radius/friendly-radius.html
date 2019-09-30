@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="friendly-radius.css" rel="stylesheet" type="text/css">
+    <title>Friendly Radius</title>
+    <script src="UI-module.js"></script>
+    <script src="friendly-radius.js"></script>
+    <script src="twitter-authenticate.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8r6PGt2XEE_ltwCxgGTpYHEc0bHea70I&libraries=geometry&callback=EnableSearchBars" async defer></script>
+</head>
+<body>
+    <div id="container">
+        <div id="loadingBar" class="loadingBar" style="visibility:hidden;"></div>
+        <div id="search" class="search">
+            <p class="instructions" id="init-instructions">Click to search a social media account: <img src="images/twitter-logo-58px.png" onclick="TwitterInit();" /> 
+            <!--<img src="images/fb-logo-58px.png" onclick="FBLogin();" />--> 
+            </p>
+            <div id="twitter-input" style="visibility: hidden;">
+                <p class="instructions">
+                    Please enter your Twitter handle to search locations for all people you follow:
+                    <input type="text" id="txt-twitter-input" />
+                    <input type="button" id="btn-twitter-input" value="Submit" disabled onclick="TwitterSubmitClick();" />
+                </p>
+
+            </div>
+            <div id="searchUI" style="visibility: hidden;">
+                <p class="instructions">
+                    Please enter a location and a search radius:
+                    <br />
+                    <input type="text" id="searchbar" />  
+                    <select id="radius">
+                        <option value=10>10 miles</option>
+                        <option value=50 selected="selected">50 miles</option>
+                        <option value=100>100 miles</option>
+                    </select>
+                    <input type="button" id="submit" value="Submit" disabled onclick="SubmitSearch();" />
+                </p>
+            </div>
+        
+        <div id="output-log" class="output"></div>
+        
+
+        </div>
+
+        
+
+
+    </div>
+</body>
+</html>

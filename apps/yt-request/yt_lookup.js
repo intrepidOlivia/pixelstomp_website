@@ -136,13 +136,6 @@ function formatComments(comments) {
 		});
 	});
 
-	// display list of comment authors
-	let options = '';
-	Object.keys(commenterMap).sort(idCompare).forEach((id) => {
-		options += `<option value=${id}>${commenterMap[id].name} (${commenterMap[id].comments.length})</option>`;
-	});
-	document.getElementById('commenterSelect').innerHTML = options;
-
 	displayCommentCount(count);
 	return html;
 }
