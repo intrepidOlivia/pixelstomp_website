@@ -74,14 +74,14 @@ function TrimFriendsList(friendList)
 //Sends a message to store in the server's output log
 function ServerLog(message)
 {
-    let httpReq = new XMLHttpRequest();
-    httpReq.open('POST', 'http:\/\/138.68.243.184:8080/log?message=' + message);
-    httpReq.onreadystatechange = function () {
-        if (httpReq.readyState == 4 && httpReq.status == 200) {
-            console.log(httpReq.responseText);
-        }
-    };
-    httpReq.send();
+    // let httpReq = new XMLHttpRequest();
+    // httpReq.open('POST', 'http:\/\/138.68.243.184:8080/log?message=' + message);
+    // httpReq.onreadystatechange = function () {
+    //     if (httpReq.readyState == 4 && httpReq.status == 200) {
+    //         console.log(httpReq.responseText);
+    //     }
+    // };
+    // httpReq.send();
 }
 
 /*
