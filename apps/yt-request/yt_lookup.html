@@ -5,6 +5,7 @@
     <title>Youtube Comment Search</title>
     <link rel="stylesheet" href="./yt_lookup_styles.css" type="text/css" />
     <base target="_blank" rel="noopener noreferrer">
+    <script src="../request.js"></script>
 </head>
 <body>
 <div>
@@ -33,7 +34,7 @@
         </div>
     </div>
     <hr />
-    <div>
+    <div id="thumbnailSearchWrapper">
       <div id="thumbnail_submit">
         <h3>Youtube Thumbnail Search</h3>
           <p>Enter a youtube video URL to search for its highest quality thumbnail:</p>
@@ -45,6 +46,15 @@
       <div id="thumbnail_result">
 
       </div>
+    </div>
+    <hr />
+    <div id="commentTheaterWrapper">
+        <h3>Live Comment Theater</h3>
+        <p>Enter the URL of a Youtube video to open Live Comment Theater mode, where comments will be displayed as the video plays, as if in a live chat:</p>
+        <p><input type="text" id="theaterInput" /> <button onclick="doCommentTheater()">Search</button> </p>
+        <div id="commentTheater" class="theater" style="display:none">
+
+        </div>
     </div>
 </div>
 <script src="./yt_lookup.js"></script>

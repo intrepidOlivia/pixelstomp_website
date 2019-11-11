@@ -41,8 +41,19 @@ function makeHTTPRequest(url, method) {
 	});
 }
 
-function displayError() {
-	console.log('An error occurred:', this);
+function displayError(message, divId = 'commentSearchWrapper') {
+	const error = document.createElement('div');
+	error.id = 'errorMessage';
+	error.style.color = 'red';
+	error.innerHTML = message;
+	error.remove = () => { document.getElementById(divId).removeChild(error); }
+	loading.style.display = 'none';		// hide loading bar
+	document.getElementById(divId).appendChild(error);
+}
+
+function clearError() {
+	const error = document.getElementById('errorMessage');
+	error && error.remove();
 }
 
 // YOUTUBE REQUEST FUNCTIONS
@@ -74,10 +85,8 @@ function retrieveAllComments(videoID) {
 			if (resultObj.error) {
 				throw resultObj.error;
 			} else {
-				const error = document.getElementById('errorMessage');
-				error && error.remove();
+				clearError();
 			}
-
 
 			// The response is an array of threads, which are arrays of comments.
 			// Each comment contains a snippet, which contains an textOriginal property, which is the comment's text.
@@ -86,13 +95,7 @@ function retrieveAllComments(videoID) {
 		})
 		.catch((err) => {
 			console.warn('processing error:', err);
-			const error = document.createElement('div');
-			error.id = 'errorMessage';
-			error.style.color = 'red';
-			error.innerHTML = `There was an error processing the request: ${err.message || JSON.stringify(err)}`;
-			error.remove = () => { document.getElementById('commentSearchWrapper').removeChild(error); }
-			loading.style.display = 'none';		// hide loading bar
-			document.getElementById('commentSearchWrapper').appendChild(error);
+			displayError(`There was an error processing the request: ${err.message || JSON.stringify(err)}`);
 		});
 }
 
@@ -255,4 +258,36 @@ function displayImage(url) {
     img.src = url;
     let div = document.getElementById('thumbnail_result');
     div.appendChild(img);
+}
+
+/**
+ * LIVE COMMENT THEATER UTILITIES
+ */
+
+function doCommentTheater() {
+	const input = document.getElementById("theaterInput");
+	const vId = getVideoID(input.value);
+	get(`${SERVER_URL}/youtube/getSortedComments?v=${vId}`)
+		.then(sortedComments => {
+			const msDiff = new Date(sortedComments[sortedComments.length - 1].snippet.publishedAt) - new Date(sortedComments[0].snippet.publishedAt);
+			if (!msDiff) {
+				displayError(`An error was encountered while calculating temporal information: ${JSON.stringify(sortedComments)}`, 'commentTheaterWrapper');
+				return;
+			}
+
+			const hours = msDiff / 1000 / 60 / 60;
+
+			console.log('Working with time differential of ' + msDiff + " milliseconds.");
+			console.log(`(That's ${(hours).toFixed(2)} hours, ${(hours / 24).toFixed(2)} days, ${(hours / 24 / 365 * 12).toFixed(2)} months`);
+
+			displayError("Player for Live Comment Theater is not yet implemented. Please check back again soon.", 'commentTheaterWrapper');
+		});
+}
+
+function theaterMode() {
+
+}
+
+function theaterOff() {
+
 }

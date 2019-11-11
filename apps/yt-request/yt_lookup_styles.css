@@ -4,6 +4,10 @@ body {
     padding: 10px;
 }
 
+input {
+    width: 20%;
+}
+
 footer {
   position: fixed;
   bottom: 0;
