@@ -2,11 +2,16 @@ const SERVER_URL = 'http://138.68.243.184:8080';
 // const SERVER_URL = 'http://localhost:8080';
 
 // STORAGE VARIABLES
-let videoID = '';
+var videoID = '';
 let videoComments = [];
 const loading = document.getElementById('loadingBar');
 let username;
 let commenterMap = {};
+let iframeApi;
+let sortedComments;
+let sortedCommentsHTML;
+let msDiff;
+let videoInfo;
 
 // GENERAL YOUTUBE UTILITIES
 // -------------------------
@@ -47,7 +52,7 @@ function displayError(message, divId = 'commentSearchWrapper') {
 	error.style.color = 'red';
 	error.innerHTML = message;
 	error.remove = () => { document.getElementById(divId).removeChild(error); }
-	loading.style.display = 'none';		// hide loading bar
+	hideLoading()
 	document.getElementById(divId).appendChild(error);
 }
 
@@ -68,7 +73,7 @@ function onCommentSearch() {
 	const searchValue = document.getElementById('urlInput').value;
 	let found = getVideoID(searchValue);
 	if (found) {
-		loading.style.display = 'block';	// show loading bar
+		displayLoading();
 		videoID = found;
 		retrieveAllComments(found);
 	}
@@ -100,7 +105,7 @@ function retrieveAllComments(videoID) {
 }
 
 function displayComments(comments) {
-	loading.style.display = 'none';		// hide loading bar
+	hideLoading();
 	videoComments = comments;
 	const box = document.getElementById('commentsBox');
 
@@ -109,24 +114,20 @@ function displayComments(comments) {
 	commenterMap = {};
 
 	box.style.display = 'block';
-	box.innerHTML = formatComments(comments);
+	box.innerHTML = formatThreads(comments);
 	document.getElementById('commentSearch').style.display = 'block';	// show the comment search section
 }
 
 // SIDE EFFECT: Displays the number of comments found.
-function formatComments(comments) {
+function formatThreads(comments) {
 	let html = '';
 	let count = 0;
 	comments.forEach((thread) => {
 		thread.forEach((comment, index) => {
-			const authorId = comment.snippet.authorChannelId.value;
-			const authorUrl = comment.snippet.authorChannelUrl;
-			const authorName = comment.snippet.authorDisplayName;
-			const commentText = comment.snippet.textOriginal
+			const { authorId, authorUrl, authorName, commentText } = getBasicCommentInfo(comment, index);
 
 			// display comments
-			html += `<p>${index === 0 ? '' : '&nbsp;&nbsp;&nbsp;&nbsp;'}<a href="${authorUrl}"><strong>${authorName}</strong></a>:<br/>`;
-			html += `${index === 0 ? '&nbsp;&nbsp;' : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}<a href="${getCommentLink(videoID, comment.id)}">${commentText}</a></p>`;
+			html += getCommentHTML({authorUrl, authorName, id: comment.id, commentText}, index);
 
 			// gather list of comment authors
 			if (commenterMap[authorId]) {
@@ -143,6 +144,23 @@ function formatComments(comments) {
 	return html;
 }
 
+function getBasicCommentInfo(comment) {
+	return {
+		authorId: comment.snippet.authorChannelId.value,
+		authorUrl: comment.snippet.authorChannelUrl,
+		authorName: comment.snippet.authorDisplayName,
+		commentText: comment.snippet.textOriginal,
+		msDelay: 0,		// time comment was posted (in milliseconds) after video was pubished
+		id: comment.id,
+	};
+}
+
+// Include index to display in thread format (parent is index 0)
+function getCommentHTML(comment, index) {
+	return `<p key=${comment.id}>${index === 0 ? '' : '&nbsp;&nbsp;&nbsp;&nbsp;'}<a href="${comment.authorUrl}"><strong>${comment.authorName}</strong></a>:<br/>
+	${index && index === 0 ? '&nbsp;&nbsp;' : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}<a href="${getCommentLink(videoID, comment.id)}">${comment.commentText}</a></p>`;
+}
+
 function idCompare(id1, id2) {
 	return commenterMap[id1].name.localeCompare(commenterMap[id2].name);
 }
@@ -154,7 +172,6 @@ function displayCommentCount(count) {
 
 function commentSearch() {
 	const input = document.getElementById('commentSearchInput').value;
-	console.log('input:', input);
 	const found = [];
 	videoComments.forEach((thread) => {
 		thread.forEach((comment) => {
@@ -263,31 +280,113 @@ function displayImage(url) {
 /**
  * LIVE COMMENT THEATER UTILITIES
  */
-
+let displayCursor = 0;	// non-inclusive
 function doCommentTheater() {
+	displayCursor = 0;
 	const input = document.getElementById("theaterInput");
-	const vId = getVideoID(input.value);
-	get(`${SERVER_URL}/youtube/getSortedComments?v=${vId}`)
-		.then(sortedComments => {
-			const msDiff = new Date(sortedComments[sortedComments.length - 1].snippet.publishedAt) - new Date(sortedComments[0].snippet.publishedAt);
-			if (!msDiff) {
-				displayError(`An error was encountered while calculating temporal information: ${JSON.stringify(sortedComments)}`, 'commentTheaterWrapper');
-				return;
-			}
+	videoID = getVideoID(input.value);
 
-			const hours = msDiff / 1000 / 60 / 60;
+	theaterMode();
+	displayLoading();
 
-			console.log('Working with time differential of ' + msDiff + " milliseconds.");
-			console.log(`(That's ${(hours).toFixed(2)} hours, ${(hours / 24).toFixed(2)} days, ${(hours / 24 / 365 * 12).toFixed(2)} months`);
+	if (!iframeApi) {
+		injectIframeApi();
+	}
 
-			displayError("Player for Live Comment Theater is not yet implemented. Please check back again soon.", 'commentTheaterWrapper');
-		});
+    get(`${SERVER_URL}/youtube/video?v=${videoID}`)
+        .then(result => {
+            videoInfo = result;
+        })
+		.then(() => {
+            get(`${SERVER_URL}/youtube/getSortedComments?v=${videoID}`)
+                .then(result => {
+                    hideLoading();
+                    sortedComments = result;
+                    msDiff = new Date(sortedComments[sortedComments.length - 1].snippet.publishedAt) - new Date(sortedComments[0].snippet.publishedAt);
+                    if (!msDiff) {
+                        displayError(`An error was encountered while calculating temporal information: ${JSON.stringify(sortedComments)}`, 'commentTheaterWrapper');
+                        return;
+                    }
+
+                    sortedCommentsHTML = sortedComments.map((comment) => getCommentHTML(getBasicCommentInfo(comment)));
+                });
+		})
 }
 
-function theaterMode() {
-
+function theaterMode(id='commentTheater') {
+	const theater = document.getElementById(id);
+	theater.style.visibility = "visible";
 }
 
 function theaterOff() {
+	const theaters = Array.from(document.getElementsByClassName('theater'));
+	theaters.forEach(t => {t.style.visibility = 'hidden'});
+}
 
+function injectIframeApi() {
+	iframeApi = document.createElement("script");
+	iframeApi.src = "yt_iframe_api.js";
+	document.head.appendChild(iframeApi);
+}
+
+function displayLoading() {
+	loading.style.visibility = "visible";
+}
+
+function hideLoading() {
+	loading.style.visibility = "hidden";
+}
+
+let streamId;
+
+function startCommentStream(player) {
+	// displayCursor = 0;
+	const duration = player.getDuration() * 1000;	// milliseconds
+	const videoStart = new Date(videoInfo.items[0].snippet.publishedAt).getTime();
+
+	const now = Date.now();
+	const chatPeriod = now - videoStart;
+	const temporalAdjustment = duration / chatPeriod;	// multiply millis by this number
+
+
+	if (!streamId) {
+		streamId = setInterval(() => {
+			const timestamp = player.getMediaReferenceTime() * 1000;	// seconds
+
+			let newComments = true;
+			while (newComments) {
+				for (let i = displayCursor; i < sortedComments.length; i++) {
+					const commentPosted = new Date(sortedComments[i].snippet.publishedAt).getTime();
+					const offset = commentPosted - videoStart;
+					const chatCommentTime = offset * temporalAdjustment;
+					if (timestamp < chatCommentTime) {
+                        newComments = false;
+                        break;
+					}
+
+					displayCursor++;
+                    renderComments();
+				}
+			}
+		}, 100);
+	}
+}
+
+function stopCommentStream() {
+	if (streamId) {
+		clearInterval(streamId);
+	}
+}
+
+
+function renderComments() {
+	const commentDiv = document.getElementById('commentTheaterComments');
+	commentDiv.innerHTML = sortedCommentsHTML.slice(0, displayCursor).join("");
+    updateTheaterScroll();
+}
+
+function updateTheaterScroll() {
+	console.log('scrolling down');
+	const box = document.getElementById('commentTheaterComments');
+	box.scrollTop = box.scrollHeight;
 }

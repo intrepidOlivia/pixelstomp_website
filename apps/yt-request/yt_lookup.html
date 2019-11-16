@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="./yt_lookup_styles.css" type="text/css" />
     <base target="_blank" rel="noopener noreferrer">
     <script src="../request.js"></script>
+
 </head>
 <body>
 <div>
-    <div class="loadingBar" id="loadingBar"></div>
+    <div class="loadingBar" id="loadingBar" style="visibility:hidden"></div>
     <div id="commentSearchWrapper">
         <h3>Youtube Comment Search</h3>
         <p>Enter the URL of a Youtube video to retrieve up to 1000 of its comments (please be patient, it can take a while):</p>
@@ -52,8 +53,12 @@
         <h3>Live Comment Theater</h3>
         <p>Enter the URL of a Youtube video to open Live Comment Theater mode, where comments will be displayed as the video plays, as if in a live chat:</p>
         <p><input type="text" id="theaterInput" /> <button onclick="doCommentTheater()">Search</button> </p>
-        <div id="commentTheater" class="theater" style="display:none">
+        <div id="commentTheater" class="theater commentSplit" style="visibility:hidden">
+            <div id="closeCommentTheater" onclick="theaterOff()" class="close_button">X</div>
+            <div id="commentTheaterPlayer"></div>
+            <div id="commentTheaterComments" class="commentsBox">
 
+            </div>
         </div>
     </div>
 </div>
