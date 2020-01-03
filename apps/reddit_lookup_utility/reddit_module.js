@@ -2,6 +2,7 @@
 let userComments = [];
 let postComments = [];
 const SERVER_PATH = 'http://138.68.243.184:8080';
+const REDDIT_PATH = 'http://old.reddit.com';
 // const SERVER_PATH = 'http://localhost:8080';
 
 // Judicious filtering of utilities
@@ -69,7 +70,7 @@ function searchRedditorInfo() {
       document.getElementById('rawInfo').value += value;
     });
     icon.src = formatIconLink(infoObj.icon_img);
-    userLink.href = `http://old.reddit.com/u/${username}`;
+    userLink.href = `${REDDIT_PATH}/u/${username}`;
     userLink.innerHTML = `/u/${username}:`;
 
     getComments(username);
@@ -226,7 +227,7 @@ function getFavoriteSubreddits() {
   let list = document.getElementById('favoriteSubreddits');
   list.innerHTML = '';
   subCount.forEach((sub, i) => {
-    list.innerHTML += `<a href="http://old.reddit.com/r/${sub.subreddit}" class="subreddit" style="font-size: ${(sub.count / 2) + 11}px;">${sub.subreddit}</a>`;
+    list.innerHTML += `<a href="${REDDIT_PATH}/r/${sub.subreddit}" class="subreddit" style="font-size: ${(sub.count / 2) + 11}px;">${sub.subreddit}</a>`;
   });
 }
 
@@ -386,7 +387,7 @@ function getSubredditIntersection() {
 				      if (subredditList[i].count <= 1) {
 				          continue;
                       }
-					  let link = `<a href="http://old.reddit.com/r/${subredditList[i].subreddit}" class="subreddit" style="font-size: ${(subredditList[i].count / 3) + 10}px;">${subredditList[i].subreddit}</a>`
+					  let link = `<a href="${REDDIT_PATH}/r/${subredditList[i].subreddit}" class="subreddit" style="font-size: ${(subredditList[i].count / 3) + 10}px;">${subredditList[i].subreddit}</a>`
 					  list.innerHTML += link;
 				  }
               }
@@ -469,7 +470,7 @@ function getCrossReferences() {
       crossList.innerHTML = '';
       sortedLinkMap.forEach((crossLink) => {
         if (crossLink.key !== `/r/${subreddit}`) {
-            crossList.innerHTML += `<a style="font-size: ${(crossLink.count * 2) + 12}px;" class="subreddit" href="http://old.reddit.com${crossLink.key}">${crossLink.key}</a>`;
+            crossList.innerHTML += `<a style="font-size: ${(crossLink.count * 2) + 12}px;" class="subreddit" href="${REDDIT_PATH}${crossLink.key}">${crossLink.key}</a>`;
         }
       });
 
@@ -528,9 +529,8 @@ function displayPostUserMap({ subreddit, id }) {
       const resultDiv = document.getElementById('postUserMap_List');
       let userMapHTML = '';
       result.forEach((user) => {
-        console.log('user:', user);
         // userMapHTML += `<a href="" style="font-size: ${(sub.count / 2) + 11}px;">${user}</a>`
-        userMapHTML += ` <a href="" style="font-size: ${(user[1] / 3) * 10}px">${user[0]}</a> `
+        userMapHTML += ` <a href="${REDDIT_PATH}/u/${user[0]}" style="font-size: ${(user[1] / 3) * 10}px">${user[0]}</a> `
       });
       resultDiv.innerHTML = userMapHTML;
     })
