@@ -201,19 +201,36 @@ function AuthTwitterApp(callback) {
 
 }
 
-function Output(string) {
+function Output(string, id) {
     var outbox = document.getElementById('output-log');
     var para = document.createElement('p');
+    para.id = id || Date.now();
     para.textContent = string;
     outbox.appendChild(para);
 }
 
 //Receives a string containing HTML and appends it to the document as a paragraph
-function OutputHTML(htmlString) {
+function OutputHTML(htmlString, id) {
     var outbox = document.getElementById('output-log');
     var para = document.createElement('p');
+    para.id = id || Date.now();
     para.innerHTML = htmlString;
     outbox.appendChild(para);
+}
+
+function removeHTML(id) {
+    const segment = document.getElementById(id);
+    if (segment) {
+        segment.parentElement.removeChild(segment);
+    }
+}
+
+/**
+ * Clears all previous output from the 'output-log' element
+ */
+function clearOutput() {
+    const o = document.getElementById('output-log');
+    o.innerHTML = '';
 }
 
 function EnableSearchBars() {
@@ -236,8 +253,9 @@ GEOCODING FUNCTIONS
 function SubmitSearch()
 {
     var inputtext = document.getElementById('searchbar').value;
-    console.log("Input text: " + inputtext);
-    document.getElementById('submit').disabled = 'disabled';
+
+    // Delete previous content
+    clearOutput();
 
     DisplayLoadingBar();
 
@@ -247,7 +265,7 @@ function SubmitSearch()
         var searchedLocation = {
             'name': inputtext,
             'coords': searchedCoords[0]
-        }
+        };
 
         //For all friend coordinates, find friends within the radius
         var friendsInRadius = FindWithinRadius(searchedLocation, GetRadius(), friendCoordList);
@@ -257,21 +275,21 @@ function SubmitSearch()
         console.log("Radius search completed.");
 
         //display the list of friends' usernames and locations to the user
-        Output("Friends found within specified radius:");
-        ListFriends(friendsInRadius);
+        Output("Friends found within specified radius:", 'twitter_header');
+        ListFriends(friendsInRadius,);
 
     });
 
 }
 
 //A function that receives a list of friends and their info and displays it along with the link
-function ListFriends(friendsInRadius)
+function ListFriends(friendsInRadius, id)
 {
     for (i = 0; i < friendsInRadius.length; i++)
     {
         //Create a thing of html and append it to the document body
         var htmlString = '<a href="' + friendsInRadius[i].url + '">' + friendsInRadius[i].screen_name + '</a>';
-        OutputHTML(htmlString);
+        OutputHTML(htmlString, id);
 
     }
 }
