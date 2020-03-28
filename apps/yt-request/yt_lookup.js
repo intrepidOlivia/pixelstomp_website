@@ -302,6 +302,7 @@ function doCommentTheater() {
                 .then(result => {
                     hideLoading();
                     sortedComments = result;
+                    console.log('sorted comments:', sortedComments);
                     msDiff = new Date(sortedComments[sortedComments.length - 1].snippet.publishedAt) - new Date(sortedComments[0].snippet.publishedAt);
                     if (!msDiff) {
                         displayError(`An error was encountered while calculating temporal information: ${JSON.stringify(sortedComments)}`, 'commentTheaterWrapper');
@@ -338,43 +339,48 @@ function hideLoading() {
 }
 
 let streamId;
+const REFRESH_RATE = 10000;
 
 function startCommentStream(player) {
 	// displayCursor = 0;
-	const duration = player.getDuration() * 1000;	// milliseconds
-	const videoStart = new Date(videoInfo.items[0].snippet.publishedAt).getTime();
-
-	const now = Date.now();
-	const chatPeriod = now - videoStart;
-	const temporalAdjustment = duration / chatPeriod;	// multiply millis by this number
-
+	console.log('Starting comment stream');
 
 	if (!streamId) {
-		streamId = setInterval(() => {
-			const timestamp = player.getMediaReferenceTime() * 1000;	// seconds
-
-			let newComments = true;
-			while (newComments) {
-				for (let i = displayCursor; i < sortedComments.length; i++) {
-					const commentPosted = new Date(sortedComments[i].snippet.publishedAt).getTime();
-					const offset = commentPosted - videoStart;
-					const chatCommentTime = offset * temporalAdjustment;
-					if (timestamp < chatCommentTime) {
-                        newComments = false;
-                        break;
-					}
-
-					displayCursor++;
-                    renderComments();
-				}
-			}
-		}, 100);
+		streamId = setTimeout(() => displayComments(player), REFRESH_RATE);
 	}
+}
+
+function displayComments(player) {
+	const timestamp = player.getMediaReferenceTime() * 1000;	// seconds
+    const videoStart = new Date(videoInfo.items[0].snippet.publishedAt).getTime();
+    const duration = player.getDuration() * 1000;	// milliseconds
+    const now = Date.now();
+    const chatPeriod = now - videoStart;
+    const temporalAdjustment = duration / chatPeriod;	// multiply millis by this number
+
+    let newComments = true;
+    while (newComments) {
+        for (let i = displayCursor; i < sortedComments.length; i++) {
+            const commentPosted = new Date(sortedComments[i].snippet.publishedAt).getTime();
+            const offset = commentPosted - videoStart;
+            const chatCommentTime = offset * temporalAdjustment;
+            if (timestamp < chatCommentTime) {
+                newComments = false;
+                break;
+            }
+
+            displayCursor++;
+            renderComments();
+        }
+    }
+
+    setTimeout(() => displayComments(player), REFRESH_RATE);
 }
 
 function stopCommentStream() {
 	if (streamId) {
 		clearInterval(streamId);
+		streamId = null;
 	}
 }
 
@@ -386,7 +392,6 @@ function renderComments() {
 }
 
 function updateTheaterScroll() {
-	console.log('scrolling down');
 	const box = document.getElementById('commentTheaterComments');
 	box.scrollTop = box.scrollHeight;
 }

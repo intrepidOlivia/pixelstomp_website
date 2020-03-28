@@ -1,0 +1,72 @@
+body {
+    margin-left: 15%;
+    margin-right: 15%;
+    text-align: center;
+}
+
+div {
+    margin-left: 5%;
+    margin-right: 5%;
+	color: rgb(153, 0, 153);
+}
+
+.menuText {
+	font-family: Courier New, Courier, monospace;
+	font-weight: bold;
+	font-size: 90%;
+}
+
+.app-icon {
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+#appList {
+  font-family: Consolas, monaco, monospace;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.bodyText {
+	font-family: Garamond, "Times New Roman", serif;
+	font-size: 16px;
+	color: #2a1b31;
+}
+
+.footerText {
+	font-family: Garamond, "Times New Roman", serif;
+	font-size: 90%;
+	color: #8c8c8c;
+}
+
+#fr_icon {
+  background-image: url("./images/radar-icon.svg");
+}
+
+textarea {
+    width: 80%;
+    margin: 5px 5px 5px 5px;
+    border: 1px solid black;
+}
+
+img.chilterimage {
+    border: 1px solid black;
+    top: 5px;
+}
+
+#snoo_icon {
+  background-image: url("./images/reddit_icon.svg");
+}
+
+#yt_icon {
+  background-image: url("./images/eye_icon.svg");
+}
+
+:link { color: rgb(0, 0, 153) }         /* for unvisited links */
+:visited { color: rgb(153, 0, 153) }    /* for visited links */
+:hover { color: rgb(0, 96, 255) }       /* when mouse is over link */
+:active { color: rgb(255, 0, 102) }     /* when link is clicked */
