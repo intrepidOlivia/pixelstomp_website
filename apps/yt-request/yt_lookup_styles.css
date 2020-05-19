@@ -147,3 +147,7 @@ footer {
 .close_button:hover {
     outline: #3498db auto 5px;
 }
+
+.no-author {
+    color: red;
+}

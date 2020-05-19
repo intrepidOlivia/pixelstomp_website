@@ -145,11 +145,13 @@ function formatThreads(comments) {
 }
 
 function getBasicCommentInfo(comment) {
+	const snippet = comment.snippet;
+
 	return {
-		authorId: comment.snippet.authorChannelId.value,
-		authorUrl: comment.snippet.authorChannelUrl,
-		authorName: comment.snippet.authorDisplayName,
-		commentText: comment.snippet.textOriginal,
+		authorId: snippet.authorChannelId && snippet.authorChannelId.value,
+		authorUrl: snippet.authorChannelUrl,
+		authorName: snippet.authorDisplayName,
+		commentText: snippet.textOriginal,
 		msDelay: 0,		// time comment was posted (in milliseconds) after video was pubished
 		id: comment.id,
 	};
@@ -346,11 +348,11 @@ function startCommentStream(player) {
 	console.log('Starting comment stream');
 
 	if (!streamId) {
-		streamId = setTimeout(() => displayComments(player), REFRESH_RATE);
+		streamId = setTimeout(() => displayPlayerComments(player), REFRESH_RATE);
 	}
 }
 
-function displayComments(player) {
+function displayPlayerComments(player) {
 	const timestamp = player.getMediaReferenceTime() * 1000;	// seconds
     const videoStart = new Date(videoInfo.items[0].snippet.publishedAt).getTime();
     const duration = player.getDuration() * 1000;	// milliseconds
@@ -374,7 +376,7 @@ function displayComments(player) {
         }
     }
 
-    setTimeout(() => displayComments(player), REFRESH_RATE);
+    setTimeout(() => displayPlayerComments(player), REFRESH_RATE);
 }
 
 function stopCommentStream() {
