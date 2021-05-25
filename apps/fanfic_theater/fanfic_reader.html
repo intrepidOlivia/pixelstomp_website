@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <title>Fanfic Theater Reader</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div id='chatlog' class='chatlog'></div>
+            <div id='clientListWrapper' class='clientListWrapper' >
+                <div class="clientListHeader">Client List</div>
+                <div class="clientList"></div>
+            </div>
+        </div>
+        <div>
+            <p>Instructions: Use arrow keys to navigate the selected paragraph up or down.</p>
+            <p>[TODO: The selected paragraph will be displayed to the active broadcast]</p>
+        </div>
+        <div class="modalWrapper">
+            <div class="modal">
+                <div><form action="" name="chat" onsubmit="submitUsername()">
+                    <input type="text" /> <button type="submit">Submit</button>
+                </form></div>
+                <p>Please enter a username.</p>
+            </div>
+        </div>
+    </body>
+    <script src="websocket_client.js"></script>
+</html>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #212121;
+        color: #FFF;
+    }
+
+    .wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .chatlog {
+        font-family: 'Courier New', Courier, monospace;
+        max-height: 80vh;
+        overflow-y: auto;
+        background-color: #adadad;
+        padding: 10px;
+        max-width: 65vw;
+        border: 3px solid #FFFFFF;
+        color: #000;
+    }
+
+    .chatlog > p {
+        margin: 0;
+        padding: 5px 0 5px 40px;
+    }
+
+    .clientListWrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 3px solid #FFFFFF;
+        margin: 0 10px;
+        color: #000;
+    }
+
+    .clientListHeader {
+        background-color: #9caae6;
+        text-align: center;
+        padding: 10px;
+        font-size: 18px;
+        border-bottom: 1px solid #000;
+    }
+
+    .clientList {
+        padding: 10px;
+        max-height: 80vh;
+        max-width: 20vw;
+        text-align: center;
+        background-color: #f5f3ce;
+    }
+
+    .clientName {
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .modalWrapper {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #212121;
+    }
+
+    .modal {
+        width: 50vw;
+        height: 50vh;
+        background-color: #c4c4c4;
+        color: #000;
+        font-size: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selectedParagraph {
+        background-color: #b7d1b4;
+        color: #0c3b07;
+        transition: opacity 300ms linear;
+    }
+
+</style>
