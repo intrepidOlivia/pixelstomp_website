@@ -1,4 +1,4 @@
-const DOMAIN = 'localhost';
+const DOMAIN = '138.68.243.184';
 const socket = new WebSocket(`ws://${DOMAIN}:8080/`, );
 let socketOpen = false;
 
