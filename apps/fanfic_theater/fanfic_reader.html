@@ -10,20 +10,38 @@
                 <div class="clientList"></div>
             </div>
         </div>
-        <div>
-            <p>Instructions: Use arrow keys to navigate the selected paragraph up or down.</p>
-            <p>[TODO: The selected paragraph will be displayed to the active broadcast]</p>
+        <div class="instructions">
+            <p>Instructions: Use arrow keys to navigate the selected paragraph up or down - or click to the left of a paragraph to select it.</p>
+            <p><a href="./fanfic_viewer.html" target="_blank">Fanfic Viewing Page</a></p>
+            <p><button onclick="openPasteModal()">Click to paste in a new fic</button></p>
         </div>
-        <div class="modalWrapper">
+        <div id="usernameModal" class="modalWrapper">
             <div class="modal">
-                <div><form action="" name="chat" onsubmit="submitUsername()">
-                    <input type="text" /> <button type="submit">Submit</button>
+                <div><form id="username_form">
+                    <input type="text" id="username_input" /> <button type="submit">Submit</button>
                 </form></div>
                 <p>Please enter a username.</p>
             </div>
         </div>
+        <div id="ficSubmitModal" class="modalWrapper hidden">
+            <div class="modal">
+                <form id="fic_paste_form" class="modalForm">
+                    <div>
+                        Paste fic text below:
+                    </div>
+                    <div>
+                        <textarea id="ficText"></textarea>
+                    </div>
+                    <div class="evenSpacedButtons"><button onclick="closePasteModal()">Cancel</button><button type="submit">Submit</button></div>
+                </form>
+            </div>
+        </div>
     </body>
-    <script src="websocket_client.js"></script>
+    <script src="websocket_reader.js"></script>
+    <script>
+        document.getElementById('fic_paste_form').addEventListener('submit', submitFicText);
+        document.getElementById('username_form').addEventListener('submit', submitUsername);
+    </script>
 </html>
 
 <style>
@@ -32,8 +50,25 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background-color: #212121;
+        background-color: #1A1A1A;
         color: #FFF;
+    }
+
+    a {
+        color: #25ddf5;
+    }
+
+    a:visited {
+        color: #8961ed;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    textarea {
+        width: 40vw;
+        height: 30vh;
     }
 
     .wrapper {
@@ -44,10 +79,11 @@
     }
 
     .chatlog {
-        font-family: 'Courier New', Courier, monospace;
+        font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+        font-size: 18px;
         max-height: 80vh;
         overflow-y: auto;
-        background-color: #adadad;
+        background-color: #1A1A1A;
         padding: 10px;
         max-width: 65vw;
         border: 3px solid #FFFFFF;
@@ -55,8 +91,7 @@
     }
 
     .chatlog > p {
-        margin: 0;
-        padding: 5px 0 5px 40px;
+        padding: 5px 0 5px 0;
     }
 
     .clientListWrapper {
@@ -81,12 +116,22 @@
         max-height: 80vh;
         max-width: 20vw;
         text-align: center;
-        background-color: #f5f3ce;
+        background-color: #1A1A52;
     }
 
     .clientName {
         font-weight: bold;
-        margin: 0;
+        margin: 9px 0px;
+        padding: 9px;
+        opacity: .8;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .evenSpacedButtons {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+        margin: 10px 0 0 0;
     }
 
     .modalWrapper {
@@ -113,10 +158,55 @@
         justify-content: center;
     }
 
-    .selectedParagraph {
-        background-color: #b7d1b4;
-        color: #0c3b07;
-        transition: opacity 300ms linear;
+    .modalForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ficParagraph {
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+    }
+
+    .alreadyReadP {
+        color: #7D7B7C;
+    }
+
+    .selectedP {
+        color: #F32877;
+        font-size: 20px;
+        margin-left: 45px;
+    }
+
+    .unreadP {
+        color: #B7B7B7;
+        font-size: 20px;
+    }
+
+    .p_selector {
+        min-width: 45px;
+        max-width: 45px;
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+        color: #1A1A1A;
+        font-size: 22px;
+    }
+
+    .p_selector:hover {
+        background-color: #1F1F1F;
+        color: #F32877;
+    }
+
+    .instructions {
+        text-align: center;
+    }
+
+    .hidden {
+        display: none;
     }
 
 </style>
