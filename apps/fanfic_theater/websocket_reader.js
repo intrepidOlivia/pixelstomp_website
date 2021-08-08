@@ -39,6 +39,8 @@ socket.addEventListener('message', (messageEvent) => {
     div.innerHTML = formatText(message.text, message.index);
     currentIndex = message.index;
 
+    checkForScroll();
+
     // populate the list of clients
     const clientList = document.querySelector(CLIENT_LIST_SELECTOR);
     clientList.innerHTML = formatClientList(message.allClients);
@@ -74,6 +76,37 @@ function submitChangedIndex(event) {
         socket.send(JSON.stringify({ changeIndex: currentIndex + modifier }));
     } else {
         window.alert('Socket was unexpectedly closed. Please refresh the page.');
+    }
+}
+
+const SCROLL_BUFFER = .33;
+const PADDING = 100;
+
+function checkForScroll() {
+    // if selected index is at upper/lower percentage, scroll to center
+    const selectedP = document.querySelector(".selectedP");
+    if (!selectedP) {
+        return;
+    }
+
+    const container = document.getElementById('chatlog');
+    if (!container) {
+        return;
+    }
+
+    const selectedBox = selectedP.getBoundingClientRect();
+    const containerBox = container.getBoundingClientRect();
+
+    // If element isn't even visible, scroll into view
+    if (selectedBox.top < containerBox.top || selectedBox.top > containerBox.bottom) {
+        selectedP.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
+
+    // If element is near bottom of box, scroll into view
+    const pixelBuffer = containerBox.height * SCROLL_BUFFER;
+    if (selectedBox.top > containerBox.bottom - pixelBuffer) {
+        selectedP.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -123,7 +156,7 @@ function formatClientList(clientList) {
  */
  function formatText(text, activeIndex) {
      const paragraphs = extractParagraphs(text);
-     maxIndex = paragraphs.length - 1;
+     maxIndex = paragraphs.length - 1;  // TODO: Is there a better way to do this than a side effect?
     return matchParaStylingToActive(paragraphs, activeIndex);
 }
 
@@ -204,7 +237,7 @@ function submitFicText(event) {
 //                 body: JSON.stringify(ficInfo)
 //             })
 //             .then(response => {
-//                 console.log('received response:', response);
+//                 
 //             });
 //     }
     

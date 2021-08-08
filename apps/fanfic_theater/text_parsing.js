@@ -12,6 +12,12 @@ function extractParagraphs(text) {
             if (m[0] === '</p>') {
                 paragraphs.push(text.slice(pindex, m.index));
             }
+            if (m[0].includes('<hr')) {
+                let prev = paragraphs[paragraphs.length - 1];
+                if (prev !== undefined) {
+                    paragraphs[paragraphs.length - 1] = prev.concat(m[0]);
+                }
+            }
         }
 
         // If there were no <p> tags, try extracting by the StartFragment tag
