@@ -1,13 +1,17 @@
-// const DOMAIN = '138.68.243.184';
-const DOMAIN = 'localhost';
+const DOMAIN = '138.68.243.184';
+// const DOMAIN = 'localhost';
 const PORT = '8080';
 const socket = new WebSocket(`ws://${DOMAIN}:${PORT}/`, );
 let socketOpen = false;
 let currentIndex = 0;
+let maxIndex = null;
 
 const TEXT_CONTAINER_SELECTOR = '#chatlog'
 const CLIENT_LIST_SELECTOR = '.clientList';
 const WHITESPACE = /[\r\n]+/;
+const HTML_WHITESPACE = /<p\s*.*>\s*.*<\/p>/;
+const PASTE_TEXTAREA_ID = 'ficText';
+const HTMLMatcher = new RegExp('<(.*)>.*?|<(.*) />', 'g');
 
 socket.addEventListener('open', (openEvent) => {
     socketOpen = true;
@@ -52,13 +56,15 @@ socket.addEventListener('close', () => {
 function submitChangedIndex(event) {
     event.preventDefault();
     let modifier = null;
-    if (event.key == 'ArrowUp') {
+    if (event.key == 'ArrowLeft') {
         // direction = 'up';
         modifier = -1;
     }
-    if (event.key == 'ArrowDown') {
+    if (event.key == 'ArrowRight') {
         // direction = 'down';
-        modifier = 1;
+        if (maxIndex == null || currentIndex <= maxIndex) {
+            modifier = 1;
+        }
     }
     if (modifier == null) {
         return;
@@ -116,15 +122,20 @@ function formatClientList(clientList) {
  * @returns {string}
  */
  function formatText(text, activeIndex) {
-    const paragraphs = text.split(WHITESPACE);
+     const paragraphs = extractParagraphs(text);
+     maxIndex = paragraphs.length - 1;
+    return matchParaStylingToActive(paragraphs, activeIndex);
+}
+
+function matchParaStylingToActive(paragraphs, activeIndex) {
     return paragraphs.map((p, i) => {
         if (i < activeIndex) {
-            return `<p class="ficParagraph alreadyReadP"><span class="p_selector" onclick="doManualSelect(${i})">></span>${p}</p>`;
+            return `<p class="ficParagraph alreadyReadP"><span class="p_selector" onclick="doManualSelect(${i})">></span><span>${p}</span></p>`;
         }
         if (i === activeIndex) {
-            return `<p class="ficParagraph selectedP">${p}</p>`;
+            return `<p class="ficParagraph selectedP"><span>${p}</span></p>`;
         }
-        return `<p class="ficParagraph unreadP"><span class="p_selector" onclick="doManualSelect(${i})">></span>${p}</p>`;
+        return `<p class="ficParagraph unreadP"><span class="p_selector" onclick="doManualSelect(${i})">></span><span>${p}</span></p>`;
     }).join("");
 }
 
@@ -133,7 +144,47 @@ function openPasteModal() {
 }
 
 function closePasteModal() {
+    document.getElementById(PASTE_TEXTAREA_ID).value = '';
     document.querySelector('#ficSubmitModal').classList.add('hidden');
+}
+
+function interceptFicPaste(event) {
+    if (event.clipboardData && event.clipboardData.getData) {
+        const htmlData = event.clipboardData.getData('text/html');
+        if (!htmlData) {
+            return;
+        }
+        const textArea = document.getElementById(PASTE_TEXTAREA_ID);
+        if (!textArea) {
+            console.error('No applicable text area found for paste.');
+            return;
+        }
+        textArea.value = htmlData;
+        event.preventDefault();
+    }
+    
+}
+
+function submitFicText(event) {
+    event.preventDefault();
+    const textArea = document.getElementById(PASTE_TEXTAREA_ID);
+    const fanficText = textArea.value;
+    if (fanficText.length > 0) {
+        fetch(`http://${DOMAIN}:${PORT}/fanfic/fic_submit`,
+        { 
+            method: 'POST',
+            body: JSON.stringify(
+                { text: fanficText }
+                )
+        })
+        .then(response => {
+            closePasteModal();
+            return false;
+        })
+        .catch(err => {
+            window.alert('There was an error when trying to submit a new fic:' + err);
+        });
+    }
 }
 
 // DEPRECATED UNTIL FURTHER NOTICE
@@ -177,26 +228,3 @@ function closePasteModal() {
 //     }
 //     return null;
 // }
-
-function submitFicText(event) {
-    event.preventDefault();
-    const textArea = document.getElementById('ficText');
-    const fanficText = textArea.value;
-    if (fanficText.length > 0) {
-        fetch(`http://${DOMAIN}:${PORT}/fanfic/fic_submit`,
-        { 
-            method: 'POST',
-            body: JSON.stringify(
-                { text: fanficText }
-                )
-        })
-        .then(response => {
-            console.log('response:', response);
-            closePasteModal();
-            return false;
-        })
-        .catch(err => {
-            window.alert('There was an error when trying to submit a new fic:' + err);
-        });
-    }
-}

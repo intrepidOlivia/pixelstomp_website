@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Fanfic Theater Reader</title>
+        <script src="text_parsing.js"></script>
     </head>
     <body>
         <div class="wrapper">
@@ -11,9 +12,11 @@
             </div>
         </div>
         <div class="instructions">
-            <p>Instructions: Use arrow keys to navigate the selected paragraph up or down - or click to the left of a paragraph to select it.</p>
-            <p><a href="./fanfic_viewer.html" target="_blank">Fanfic Viewing Page</a></p>
+            <p>Tip: Use the Left and Right arrow keys to navigate the selected paragraph up or down.</p>
             <p><button onclick="openPasteModal()">Click to paste in a new fic</button></p>
+        </div>
+        <div class="viewingLink">
+            <p><a href="./fanfic_viewer.html" target="_blank">Fanfic Viewing Page</a></p>
         </div>
         <div id="usernameModal" class="modalWrapper">
             <div class="modal">
@@ -39,8 +42,10 @@
     </body>
     <script src="websocket_reader.js"></script>
     <script>
-        document.getElementById('fic_paste_form').addEventListener('submit', submitFicText);
+        const fic_paste_form = document.getElementById('fic_paste_form');
+        fic_paste_form.addEventListener('submit', submitFicText);
         document.getElementById('username_form').addEventListener('submit', submitUsername);
+        fic_paste_form.addEventListener('paste', interceptFicPaste);
     </script>
 </html>
 
@@ -192,7 +197,7 @@
         display: flex;
         justify-content: center;
         cursor: pointer;
-        color: #1A1A1A;
+        color: #363636;
         font-size: 22px;
     }
 
@@ -203,6 +208,13 @@
 
     .instructions {
         text-align: center;
+    }
+
+    .viewingLink {
+        width: 100%;
+        text-align: right;
+        padding: 0 10%;
+        box-sizing: border-box;
     }
 
     .hidden {

@@ -32,6 +32,6 @@ socket.addEventListener('message', (messageEvent) => {
  * @returns {string}
  */
  function formatText(text, activeIndex) {
-    const paragraphs = text.split(WHITESPACE);
+     const paragraphs = extractParagraphs(text);
     return `<p class="text_segment">${paragraphs[activeIndex]}</p>`;
 }
