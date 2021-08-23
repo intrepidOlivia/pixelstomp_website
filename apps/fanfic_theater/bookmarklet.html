@@ -1,0 +1,58 @@
+<html>
+<head>
+
+</head>
+<body>
+    <div><a href="javascript:(function() {    'use strict';    const FIC_SOURCES = [        [ 'fanfiction.net', 'fanfictionNet' ],    ];    const CONTAINER_SELECTORS = {        fanfictionNet: '#storytextp',    };    const href = location.href;    let ficSource = null;    for (let source of FIC_SOURCES) {       if (href.includes(source[0])) {           ficSource = source[1];       }    }    if (ficSource === null) {        window.alert('No fanfiction found.');        return;    }    const container = document.querySelector(CONTAINER_SELECTORS[ficSource]);    const ficText = container.innerHTML;    navigator.clipboard.writeText(ficText).then(() => console.log('data copied!'));})();" class="bookmarkletLink" draggable="true">Copy Fic Text (v0.1)</a></div>
+    <div class="instructions">
+        <p>Instructions:</p> 
+        <p>1. Drag the button above into your bookmarks bar to save it as a bookmarklet. </p>
+        <p>2. Open up a fanfic at fanfiction.net.</p>
+        <p>3. Click the bookmarklet. The fic's text will be copied with formatting intact. You can then paste it into <a href="fanfic_reader.html">Fanfiction Reader</a>.</p>
+    </div>
+    
+</body>
+</html>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        background-color: #1A1A1A;
+        color: #FFF;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .bookmarkletLink {
+        text-decoration: none;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        background-color: #bababa;
+        color: #000000;
+        padding: 8%;
+        border-radius: 15px;
+        border-style: double;
+        white-space: nowrap;
+        width: max-content;
+    }
+
+    .bookmarklet {
+
+    }
+
+    .instructions {
+        background-color: rgba(255, 255, 255, 0.75);
+        font-family:'Courier New', Courier, monospace;
+        padding: 1%;
+        color: #000;
+        width: 50vw;
+        height: 20vh;
+        overflow: auto;
+    }
+</style>
