@@ -1,0 +1,57 @@
+{
+    "_id": "5b1ac89bada0250ec65c2aba",
+    "index": 0,
+    "guid": "3f637b8c-5d31-4379-b7a0-b031ca99ecda",
+    "isActive": false,
+    "balance": "$1,001.16",
+    "picture": "http://placehold.it/32x32",
+    "age": 20,
+    "eyeColor": "green",
+    "name": {
+      "first": "Palmer",
+      "last": "Marquez"
+    },
+    "company": "VISUALIX",
+    "email": "palmer.marquez@visualix.co.uk",
+    "phone": "+1 (803) 590-3323",
+    "address": "840 Juliana Place, Faywood, Florida, 313",
+    "about": "Ut amet eu sint sit eiusmod deserunt eu cillum elit. Labore ad quis sint deserunt. Laboris eiusmod incididunt reprehenderit deserunt laborum deserunt. Cupidatat tempor elit culpa fugiat duis labore dolore.",
+    "registered": "Monday, August 11, 2014 6:28 AM",
+    "latitude": "-29.437233",
+    "longitude": "-18.621774",
+    "tags": [
+      "aliqua",
+      "duis",
+      "elit",
+      "irure",
+      "laboris"
+    ],
+    "range": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Hutchinson Cantrell"
+      },
+      {
+        "id": 1,
+        "name": "Savage Dotson"
+      },
+      {
+        "id": 2,
+        "name": "Dunlap Gross"
+      }
+    ],
+    "greeting": "Hello, Palmer! You have 6 unread messages.",
+    "favoriteFruit": "strawberry"
+  }

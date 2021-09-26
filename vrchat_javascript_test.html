@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="greeting">
+        <p>Welcome to poplopo's javascript testing page.</p>
+        <p>There is a function embedded in the page called 'hello()'. Pressing the button next to this screen will send a message to this webpanel to execute the function.</p>
+        <p>Please test it now to see if it works.</p>
+    </div>
+    <hr />
+    <div id="dynamic_greeting">
+
+    </div>
+</body>
+
+
+
+</html>
+
+<script>
+    function hello() {
+        let div = document.getElementById('dynamic_greeting');
+        div.innerHTML = '<p>Hello Owlboy!</p>';
+    }
+</script>

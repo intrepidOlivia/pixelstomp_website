@@ -1,0 +1,163 @@
+/*This is probably a comment! Remember to ANNOTATE ALL THE THINGS*/
+/*Semicolons go after each statement-definition thing;*/
+
+/*Generic SELECTORS (what a great word):*/
+/*--------------------------------------*/
+
+/*Formats the body of the page*/
+body {
+
+		/*WHAT IS A FONT FAMILY*/
+	font-family: Georgia, "Times New Roman", Times, serif;
+
+		/*font size: define in pixels or percentages*/
+	font-size: 14px;
+
+		/*colors (font & bg): in hex codes (#000000) or red-green-blue values (rgb(0,0,0))*/
+	color: #e6e6e6;
+	background-color: #e6e6e6;
+    background-image: url("images/starbg.jpg");
+}
+
+
+/*Formats for LISTS*/
+li {
+		/*LIST STYLE TYPE?*/
+	list-style-type: none;
+
+		/*line height: probably in pixels or percents*/
+	line-height: 150%
+
+		/*IMAGE OF WHAT*/
+	list-style-image: url(..images/arrowSmall.gif);
+}
+
+/*Settings for H1 (the biggest H)*/
+h1 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 18px;
+		/*font weight can be bold, ______, and ______?????*/
+	font-weight: bold;
+	color: #000000;
+		/*BORDERS*/
+	border-bottom: 1px solid #33cc33;
+}
+
+/*Settings for H2 (the second-biggest H)*/
+h2 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 16px;
+		/*font weight can be bold, ______, and ______?????*/
+	font-weight: bold;
+	color: #000000;
+	border-bottom: 1px solid #33cc33;
+}
+
+/**** PSEUDO CLASSES (much like this one) ****/
+/*-------------------------------------------*/
+
+/*PROBABLY FOR LINKS. FIND OUT*/
+a:link {
+	color: #00CC00;
+		/*text decoration can be: __________________*/
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+/*PROBABLY FOR LINKS IN A LIST*/
+li a:link{
+	color: #00CC00;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a:visited {
+	color: #00CC00;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+li a:visited {
+	color: #00CC00;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a:hover {
+	color: rgb*0,96,255);
+
+		/*PADDING*/
+		/*Padding is space that is wrapped around a given element/tag*/
+		/*Order of boxes in CSS: content>padding>border>margin*/
+		/*---------------------------*/
+	padding-bottom: 5px;
+
+	font-weight: bold;
+	text-decoration: underline;	
+}
+
+li a:hover {
+		/*DISPLAY???*/
+	display: block;
+	color: rgb(0,96,255);
+	padding-bottom: 5px;
+	font-weight: bold;
+		/*ELONGATED BORDER BOTTOMS??*/
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #C6EC8C;
+}
+
+a:active {
+	color: rgb(255,0,102);
+	font-weight: bold;
+}
+
+/********** ID's ***********/
+/*ID's are unique identifiers for a page element.*/
+/*They can be applied to any HTML tag (<div>, <p>, etc)*/
+/*They are defined in the CSS page to be called in the HTML page*/
+/*------------------------------*/
+
+#navigation {
+		/*WHAT ARE THE POSITIONS*/
+	position: absolute;
+		/*Z-INDEX??*/
+	z-index: 10;
+	padding-right: 2px;
+	width: 210px;
+	height: 600px;
+		/*MARGIN OF WHAT*/
+	margin: 0;
+	border-right: 5px solid #33cc33;	/*size decoration color*/
+	font-weight: normal;
+}
+
+#centerDoc {
+	position: absolute;
+	z-index: 15;
+	padding: 0 0 20px 20px;	/*top right bottom left*/
+	margin-top: 50px;
+	margin-left: 220px;
+}
+
+#quizbox {
+    
+    width: 700px;
+    text-align: center;
+    border: solid 2px #e9e9e9;
+    background-color: rgba(243, 243, 243, 0.22);
+
+}
+
+#answerInfo {
+color:rgb(45, 200, 0)
+}
+
+#footnote 
+{
+    font-size: 12px;
+    position: fixed;
+    bottom: 10px
+        
+}

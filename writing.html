@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Writing</title>
+    <link href="writingstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+    <div class="leftmenu">
+        <p"><a onclick="showReviews()" style="cursor:pointer">Reviews</a> </p>
+        <p onclick="showArticles()" style="cursor:pointer">Articles</p>
+        <p onclick="showMetaphysics()" style="cursor:pointer">Metaphysics</p>
+    </div>
+
+    <div class="mainframe" id="writingbody">
+        
+        <div id="reviews" class="bodytext" style="visibility:hidden">
+            <p><a href="writing/bladerunner-review.txt">Blade Runner 2049</a></p>
+            <p><a href="writing/alien-covenant-review.txt">Alien: Covenant</a></p>
+        </div>
+        
+        <div id="articles" class="bodytext" style="visibility: hidden">
+            Articles
+        </div>
+        
+        <div id="metaphysics" class="bodytext" style="visibility: hidden">
+            Metaphysics
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    function showReviews()
+    {
+        clearAll();
+        document.getElementById("reviews").style.visibility = 'visible';
+    }
+
+    function showArticles()
+    {
+        clearAll();
+        document.getElementById("articles").style.visibility = 'visible';
+    }
+
+    function showMetaphysics()
+    {
+        clearAll();
+        document.getElementById("metaphysics").style.visibility = 'visible';
+    }
+
+    function clearAll()
+    {
+        content = document.getElementById("writingbody").children;
+        for (i = 0; i < content.length; i++)
+        {
+            content[i].style.visibility = "hidden";
+        }
+    }
+</script>

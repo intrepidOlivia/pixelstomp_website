@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Endgame - Slideshow Setup Tool</title>
+    <script src="vrchat_slideshow.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="vrchat_slideshow_styles.css" type="text/css" />
+</head>
+<body onload="loadSetupPage()">
+    <div id="currentSlideShowInfo">
+        Current slideshow: <span id="currentName">Slideshow Name Here</span>
+        <div id="currentSlideshowPreview">
+        </div>
+        <div>
+            Make slideshow active: <select id="slideshowSelect" onchange="selectSlideshow()"></select> <button onclick="makeActive()">Make Active</button>
+        </div>
+    </div>
+    <div id="newSlideShow">
+        <button id="button_newSlideShow" onclick="initiateNewSlideshow()">New SlideShow</button>
+        <div id="newSlideshowForm" style="display:none;">
+            <p>Name of Slideshow: <input type="text" id="newSlideshowName" /></p>
+            <p>Enter image URLs here, one on each line:</p>
+            <div>
+              <textarea
+                id="urlInput"
+                wrap="off"
+                rows=10
+                cols="33"
+                autocapitalize="none"
+                autocomplete="off"
+                placeholder="http://..."
+              ></textarea>
+              <p><input id="makeActive" type="checkbox" />Make slideshow active</p>
+              <p><button id="submitNew" onclick="submitNew()">Submit</button></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

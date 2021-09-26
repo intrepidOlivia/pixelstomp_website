@@ -1,0 +1,30 @@
+﻿body {
+}
+
+#title {
+    text-align: center;
+    
+}
+
+#links {
+    margin: auto;
+    width: 95%;
+    text-align:center;
+}
+
+.column {
+    text-align: center;
+    width: 20%;
+    top: 10px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px 5px 5px 5px;
+}
+
+.columnheader {
+
+}
+
+.list {
+
+}

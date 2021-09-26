@@ -1,0 +1,17 @@
+body {
+    background-color: #000000;
+}
+
+#display {
+  height: 100%;
+  width: 100%;
+}
+
+#imgDisplay {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

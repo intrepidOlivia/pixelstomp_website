@@ -1,0 +1,35 @@
+﻿body {
+    background: #e8e8e8
+}
+
+#currentSlideshowPreview {
+
+}
+
+#newSlideShow {
+    border-style: solid;
+    border-width: 1px;
+    margin: 10px;
+    padding: 12px;
+    background: #ffffff;
+}
+
+#newSlideshowForm {
+
+}
+
+#urlInput {
+  max-height: 400px;
+  width: 500px;
+}
+
+#newSlideshowName {
+  width: 45%;
+}
+
+.disabledDiv {
+    padding: 10px;
+    background-color: #e6e6e6;
+    pointer-events: none;
+    color: #a3a3a3;
+}

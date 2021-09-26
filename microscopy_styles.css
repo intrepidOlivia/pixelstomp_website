@@ -1,0 +1,60 @@
+body {
+  background-color: #EBEBEB;
+}
+
+footer {
+  color: #4D4D4D
+}
+
+.description {
+  padding: 20px;
+  margin: 5px 10px;
+  background-color: #FFFFFF;
+}
+
+.fullImgWrapper {
+  width: fit-content;
+  margin: 0 auto;
+  opacity: 1;
+  height: 100%;
+}
+
+.header {
+  font-size: 20px;
+}
+
+.imgWrapper {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.indexWrapper {
+  display: flex;
+  width: 100%;
+  background-color: #C4C4C4;
+  flex-wrap: wrap;
+}
+
+.panelWrapper {
+  margin: 20px;
+  background-color: #D6D6D6;
+  display: inline-block;
+}
+
+.thumbnail {
+  cursor: pointer;
+}
+
+.viewer {
+  position: fixed;
+  height: inherit;
+  width: inherit;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(41, 41, 41, 0.5);
+  padding: 20px;
+  visibility: hidden;
+}
