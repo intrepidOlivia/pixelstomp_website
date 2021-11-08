@@ -17,6 +17,7 @@ socket.addEventListener('open', (openEvent) => {
     socketOpen = true;
     socket.send(JSON.stringify({ message: 'Connection opened.'}));
     window.addEventListener('keyup', submitChangedIndex);
+    checkForLocalUsername();
 });
 
 socket.addEventListener('message', (messageEvent) => {
@@ -121,22 +122,51 @@ function doManualSelect(index) {
     }
 }
 
-function submitUsername(event) {
-    event.preventDefault();
+function setLocalUsername(username) {
+    window.localStorage.setItem('username', username);
+}
+
+function setRemoteUsername(username) {
     if (socketOpen) {
-        const input = document.querySelector('#username_input');
-        const message = { username: input.value};
+        const message = { username };
         socket.send(JSON.stringify(message));
-        closeModal();
-        return false;
     } else {
         window.alert('Session was unexpectedly closed. Please refresh the page.')
     }
 }
 
-function closeModal() {
+/**
+ * Checks if the user has already set a username in their browser, and registers that instead
+ * @returns 
+ */
+function checkForLocalUsername() {
+    const username = window.localStorage.getItem('username');
+    if (username) {
+        setRemoteUsername(username);
+        closeUsernameModal();
+    } else {
+        return false;
+    }
+}
+
+function submitUsername(event) {
+    event.preventDefault();
+    const input = document.querySelector('#username_input');
+    setLocalUsername(input.value);
+    setRemoteUsername(input.value)
+    closeUsernameModal();
+    return false;
+}
+
+function closeUsernameModal() {
     const modal = document.querySelector('#usernameModal');
     modal.classList.add('hidden');
+}
+
+function openUsernameModal() {
+    const modal = document.querySelector('#usernameModal');
+    modal.classList.remove('hidden');
+    document.querySelector('#username_input').focus();
 }
 
 /**
@@ -145,7 +175,7 @@ function closeModal() {
  */
 function formatClientList(clientList) {
     return clientList.map(client => {
-        return `<p class="clientName">${client}</p>`
+        return `<p class="clientName" onclick="openUsernameModal()">${client}</p>`
     }).join("");
 }
 
