@@ -6,10 +6,10 @@ function extractParagraphs(text) {
         const matchArray = Array.from(match);
         let pindex = null;
         for (let m of matchArray) {
-            if (m[0] === '<p>') {
-                pindex = m.index + 3;
+            if (m[0].includes('<p')) {
+                pindex = m.index + m[0].length; // Set cursor to start of the paragraph's content
             }
-            if (m[0] === '</p>') {
+            if (m[0].includes('/p>')) {
                 paragraphs.push(text.slice(pindex, m.index));
             }
             if (m[0].includes('<hr')) {
