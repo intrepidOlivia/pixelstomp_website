@@ -2,6 +2,9 @@
 //PAGE SCRIPT
 //---------------
 
+const SERVER_URL = 'http://138.68.243.184:8080';
+// const SERVER_URL = 'http://localhost:8080';
+
 //Initializes account type enum for method selection later
 var AccountType = {
     FACEBOOK: 1,
@@ -69,19 +72,6 @@ function TrimFriendsList(friendList)
     }
 
     return newList;
-}
-
-//Sends a message to store in the server's output log
-function ServerLog(message)
-{
-    // let httpReq = new XMLHttpRequest();
-    // httpReq.open('POST', 'http:\/\/138.68.243.184:8080/log?message=' + message);
-    // httpReq.onreadystatechange = function () {
-    //     if (httpReq.readyState == 4 && httpReq.status == 200) {
-    //         console.log(httpReq.responseText);
-    //     }
-    // };
-    // httpReq.send();
 }
 
 /*
@@ -389,7 +379,7 @@ function SendGeocodingRequest(location, callback)
 {
     let httpReq = new XMLHttpRequest();
     let encodedLocation = encodeURIComponent(location.trim());
-    httpReq.open('GET', 'http:\/\/138.68.243.184:8080/geocoding?location=' + encodedLocation);
+    httpReq.open('GET', `${SERVER_URL}/geocoding?location=` + encodedLocation);
     httpReq.onreadystatechange = function () {
         if (httpReq.readyState == 4 && httpReq.status == 200)
         {
