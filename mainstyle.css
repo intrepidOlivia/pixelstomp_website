@@ -1,13 +1,31 @@
 body {
-    margin-left: 15%;
-    margin-right: 15%;
     text-align: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
-div {
-    margin-left: 5%;
-    margin-right: 5%;
-	color: rgb(153, 0, 153);
+.navMenu {
+  height: 100vh;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 200px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-right: 15px;
+}
+
+.navMenuItem {
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  line-height: 28px;
+  box-sizing: border-box;
 }
 
 .menuText {
@@ -59,12 +77,28 @@ img.chilterimage {
     top: 5px;
 }
 
+#mainPage {
+  padding: 0 15% 0 15%;
+}
+
 #snoo_icon {
   background-image: url("./images/reddit_icon.svg");
 }
 
 #yt_icon {
   background-image: url("./images/eye_icon.svg");
+}
+
+#gallery {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#galleryContent {
+  width: 100%;
+  flex: 100 1 100%;
+  padding-right: 10%;
 }
 
 :link { color: rgb(0, 0, 153) }         /* for unvisited links */
