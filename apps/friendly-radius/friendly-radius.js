@@ -249,7 +249,6 @@ function SubmitSearch()
 
     DisplayLoadingBar();
 
-    ServerLog(new Date().toUTCString() + "> Radius around location " + inputtext + " was searched for.")
     SendGeocodingRequest(inputtext, function (searchedCoords) {
 
         var searchedLocation = {
