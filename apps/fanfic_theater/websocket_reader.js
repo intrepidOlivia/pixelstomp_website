@@ -35,24 +35,69 @@ socket.addEventListener('message', (messageEvent) => {
         return;
     }
 
-    // format the selected paragraph
-    const div = document.querySelector(TEXT_CONTAINER_SELECTOR);
-    div.innerHTML = '';
-    const paragraphs = formatTextToParagraphs(message.text, message.index);
-    paragraphs.forEach(p => div.appendChild(p));
-    currentIndex = message.index;
+    if (message.text) {
+        // format the selected paragraph
+        const div = document.querySelector(TEXT_CONTAINER_SELECTOR);
+        div.innerHTML = '';
+        const paragraphs = formatTextToParagraphs(message.text, message.index);
 
-    checkForScroll();
+        formatTextLinks(paragraphs, message.storySource);
 
-    // populate the list of clients
-    const clientList = document.querySelector(CLIENT_LIST_SELECTOR);
-    clientList.innerHTML = formatClientList(message.allClients);
+        paragraphs.forEach(p => div.appendChild(p));
+        currentIndex = message.index;
+
+        checkForScroll();
+    }
+
+    if (message.allClients) {
+        // populate the list of clients
+        const clientList = document.querySelector(CLIENT_LIST_SELECTOR);
+        clientList.innerHTML = formatClientList(message.allClients);
+    }
+
+    if (message.storySource) {
+        // Add story link to top of the page
+        addSourceLink(message.storySource);
+    } else {
+        removeSourceLink();
+    }
 });
 
 socket.addEventListener('close', () => {
     socketOpen = false;
     window.alert('Websocket closed!');
 });
+
+function formatTextLinks(paragraphs, source) {
+    paragraphs.forEach(p => {
+        const links = p.querySelectorAll('a');
+        links.forEach(a => {
+            if (source) {
+                const url = new URL(source);
+                const currentHref = new URL(a.href);
+                if (currentHref.origin !== url.origin) {
+                    a.href = `${url.origin}${currentHref.pathname}`;
+                }
+            }
+            a.target = "_blank";
+        });
+    });
+}
+
+function addSourceLink(source) {
+    const sourceDiv = document.querySelector('#sourcelink');
+    sourceDiv.innerHTML = '';
+    const link = document.createElement('a');
+    link.href = source;
+    link.innerText = source;
+    link.target = "_blank";
+    sourceDiv.appendChild(link);
+}
+
+function removeSourceLink() {
+    const sourceDiv = document.querySelector('#sourcelink');
+    sourceDiv.innerHTML = '';
+}
 
 /**
  * @param {KeyboardEvent} event 
@@ -181,23 +226,18 @@ function formatClientList(clientList) {
     }).join("");
 }
 
-/**
- * @param {string} text 
- * @param {number} activeIndex 
- * @returns {string}
- */
- function formatText(text, activeIndex) {
-     const paragraphs = extractParagraphs(text);
-     maxIndex = paragraphs.length - 1;  // TODO: Is there a better way to do this than a side effect?
-    return matchParaStylingToActive(paragraphs, activeIndex);
-}
-
 function formatTextToParagraphs(htmlText, activeIndex) {
     const paragraphs = extractParagraphs(htmlText);
     maxIndex = paragraphs.length - 1;
     return styleActiveAndInactiveParagraphs(paragraphs, activeIndex);
 }
 
+/**
+ * 
+ * @param {Array<string>} pHTMLStrings 
+ * @param {number} activeIndex 
+ * @returns {Array<HTMLElement>}
+ */
 function styleActiveAndInactiveParagraphs(pHTMLStrings, activeIndex) {
     return pHTMLStrings.map((p, i) => {
 
