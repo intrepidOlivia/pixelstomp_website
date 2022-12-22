@@ -1,3 +1,7 @@
+/**
+ * @param {string} text 
+ * @returns {Array<string>}
+ */
 function extractParagraphs(text) {
     let paragraphs = [];
     if (detectHTML(text)) {
@@ -25,9 +29,17 @@ function extractParagraphs(text) {
             // Handle headers
             if (startsAHeader(m[0])) {
                 // Handle <h1>, <h2>, <h3> etc
-                pindex = m.index + m[0].length; // Set cursor to start of header's content
+                pindex = m.index; // Set cursor to start of header's content
             }
             if (endsAHeader(m[0])) {
+                paragraphs.push(text.slice(pindex, m.index + 5));
+            }
+
+            // Handle lists
+            if (m[0].includes('<li')) {
+                pindex = m.index + m[0].length;
+            }
+            if (m[0].includes('/li>')) {
                 paragraphs.push(text.slice(pindex, m.index));
             }
         }
