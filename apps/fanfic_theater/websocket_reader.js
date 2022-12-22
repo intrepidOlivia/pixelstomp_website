@@ -1,5 +1,5 @@
-const DOMAIN = '138.68.243.184';
-// const DOMAIN = 'localhost';
+// const DOMAIN = '138.68.243.184';
+const DOMAIN = 'localhost';
 const PORT = '8080';
 const socket = new WebSocket(`ws://${DOMAIN}:${PORT}/`, );
 let socketOpen = false;
@@ -37,7 +37,9 @@ socket.addEventListener('message', (messageEvent) => {
 
     // format the selected paragraph
     const div = document.querySelector(TEXT_CONTAINER_SELECTOR);
-    div.innerHTML = formatText(message.text, message.index);
+    div.innerHTML = '';
+    const paragraphs = formatTextToParagraphs(message.text, message.index);
+    paragraphs.forEach(p => div.appendChild(p));
     currentIndex = message.index;
 
     checkForScroll();
@@ -188,6 +190,47 @@ function formatClientList(clientList) {
      const paragraphs = extractParagraphs(text);
      maxIndex = paragraphs.length - 1;  // TODO: Is there a better way to do this than a side effect?
     return matchParaStylingToActive(paragraphs, activeIndex);
+}
+
+function formatTextToParagraphs(htmlText, activeIndex) {
+    const paragraphs = extractParagraphs(htmlText);
+    maxIndex = paragraphs.length - 1;
+    return styleActiveAndInactiveParagraphs(paragraphs, activeIndex);
+}
+
+function styleActiveAndInactiveParagraphs(pHTMLStrings, activeIndex) {
+    return pHTMLStrings.map((p, i) => {
+
+        const paragraph = document.createElement('p');
+        paragraph.className = 'ficParagraph';
+        paragraph.classList.add(getReadStatusClassname(i, activeIndex));
+
+        if (i !== activeIndex) {
+            const selectParagraphArrow = document.createElement('span');
+            selectParagraphArrow.className = 'p_selector';
+            selectParagraphArrow.onclick = () => doManualSelect(i);
+            selectParagraphArrow.innerText = '>';
+            paragraph.appendChild(selectParagraphArrow);
+        }
+
+        const text = document.createElement('span');
+        text.innerHTML = p;
+
+        paragraph.appendChild(text);
+        return paragraph;
+    });
+}
+
+function getReadStatusClassname(i, activeIndex) {
+    if (i < activeIndex) {
+        return 'alreadyReadP';
+    }
+    if (i === activeIndex) {
+        return 'selectedP';
+    }
+    if (i > activeIndex) {
+        return 'unreadP';
+    }
 }
 
 function matchParaStylingToActive(paragraphs, activeIndex) {
