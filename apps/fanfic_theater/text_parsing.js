@@ -42,6 +42,21 @@ function extractParagraphs(text) {
             if (m[0].includes('/li>')) {
                 paragraphs.push(text.slice(pindex, m.index));
             }
+
+            // Handle images
+            if (m[0].includes('<amp-img')) {
+                console.log('found an amp image!');
+                pindex = m.index;
+            }
+            if (m[0].includes('/amp-img>')) {
+                const ampImgTag = text.slice(pindex, m.index  + m[0].length);
+                const parent = document.createElement('div');
+                parent.innerHTML = ampImgTag;
+                const ampImg = parent.firstChild;
+                const imgSrc = `<img src="${ampImg.getAttribute('src')}"></img>`;
+                paragraphs.push(`<img src="${ampImg.getAttribute('src')}"></img>`);
+                console.log('image tag:', imgSrc);
+            }
         }
 
         // If there was no paragraph or header content, try extracting by the StartFragment tag
