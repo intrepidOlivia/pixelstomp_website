@@ -156,6 +156,12 @@ function checkForScroll() {
     if (selectedBox.top > containerBox.bottom - pixelBuffer) {
         selectedP.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // If element is an img, scroll into view
+    if (selectedP.innerHTML.includes('<img')) {
+        selectedP.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
 }
 
 /**
