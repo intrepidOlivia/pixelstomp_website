@@ -1,7 +1,7 @@
 javascript:(function() {        
     'use strict';
-    const DOMAIN = '138.68.243.184';  
-    /*const DOMAIN = 'localhost';*/
+    const DOMAIN = '138.68.243.184';
+    /* const DOMAIN = 'localhost'; */
     const PORT = 8080;  
     const PATH = 'fanfic/fic_submit';  
 
@@ -14,7 +14,7 @@ javascript:(function() {
         form.action = `http://${DOMAIN}:${PORT}/${PATH}`;  
         form.method = 'post';  
         form.hidden = true;  
-        const input = document.createElement('input');  
+        const input = document.createElement('textarea');  
         input.name = 'text';  
         input.value = text;  
         const sourceInput = document.createElement('input');  
